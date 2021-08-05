@@ -1,0 +1,13 @@
+[{
+    "model": "raterprojectapi.game",
+    "pk": 1,
+    "fields": {
+        "title": "Return Of The Obra Dinn",
+        "description": "The Obra Dinn, insured by the East India Company, went missing in 1803 as it was to sail around the Cape of Good Hope. It has since washed up in port with all sixty passengers and crew dead or missing. The player is tasked with determining the fate of all souls on board, including their names, where and how they met their fate, who their killer was, and their location should they be alive",
+        "designer": "Lucas Pope",
+        "year_released": "2018-10-01",
+        "num_of_players": 1,
+        "play_time": 25,
+        "recommended_age": 8
+    }
+}]
