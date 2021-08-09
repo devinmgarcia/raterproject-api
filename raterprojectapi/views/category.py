@@ -6,11 +6,11 @@ from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers
 from rest_framework import status
-from raterprojectapi.models import Game
+from raterprojectapi.models import Category
 
 
-class GameView(ViewSet):
-    """gamer rater games"""
+class CategoryView(ViewSet):
+    """gamerrater categories"""
 
     def create(self, request):
         """Handle POST operations
@@ -20,33 +20,26 @@ class GameView(ViewSet):
         """
 
         # Uses the token passed in the `Authorization` header
-        # gamer = Gamer.objects.get(user=request.auth.user)
-        
+        category = Category.objects.get(user=request.auth.user)
+
         # Create a new Python instance of the Game class
         # and set its properties from what was sent in the
         # body of the request from the client.
-        game = Game()
-        game.title = request.data["title"]
-        game.description = request.data["description"]
-        game.designer = request.data["designer"]
-        game.year_released = request.data["year_released"]
-        game.num_of_players = request.data["num_of_players"]
-        game.play_time = request.data["play_time"]
-        game.recommended_age = request.data["recommended_age"]
-        
+        category = Category()
+        category.name = request.data["name"]
+     
 
         # Use the Django ORM to get the record from the database
         # whose `id` is what the client passed as the
         # `gameTypeId` in the body of the request.
-        # game_type = GameType.objects.get(pk=request.data["gameTypeId"])
-        # game.game_type = game_type
+        game_type = GameType.objects.get(pk=request.data["gameTypeId"])
+        game.game_type = game_type
 
         # Try to save the new game to the database, then
         # serialize the game instance as JSON, and send the
         # JSON as a response to the client request
         try:
             game.save()
-            game.categories.set(request.data["categories"])
             serializer = GameSerializer(game, context={'request': request})
             return Response(serializer.data)
 
@@ -123,33 +116,33 @@ class GameView(ViewSet):
             return Response({'message': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def list(self, request):
-        """Handle GET requests to games resource
+        """Handle GET requests to categories resource
 
         Returns:
-            Response -- JSON serialized list of games
+            Response -- JSON serialized list of categories
         """
         # Get all game records from the database
-        games = Game.objects.all()
+        categories = Category.objects.all()
 
         # Support filtering games by type
         #    http://localhost:8000/games?type=1
         #
         # That URL will retrieve all tabletop games
-        game_type = self.request.query_params.get('type', None)
-        if game_type is not None:
-            games = games.filter(game_type__id=game_type)
+        # game_type = self.request.query_params.get('type', None)
+        # if game_type is not None:
+        #     games = games.filter(game_type__id=game_type)
 
-        serializer = GameSerializer(
-            games, many=True, context={'request': request})
+        serializer = CategorySerializer(
+            categories, many=True, context={'request': request})
         return Response(serializer.data)
 
-class GameSerializer(serializers.ModelSerializer):
-    """JSON serializer for games
+class CategorySerializer(serializers.ModelSerializer):
+    """JSON serializer for categories
 
     Arguments:
         serializer type
     """
     class Meta:
-        model = Game
+        model = Category
         fields = '__all__'
         depth = 1

@@ -8,6 +8,7 @@
         "year_released": "2018-10-01",
         "num_of_players": 1,
         "play_time": 25,
-        "recommended_age": 8
+        "recommended_age": 8,
+        "categories": [1]
     }
 }]
