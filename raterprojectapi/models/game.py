@@ -21,7 +21,10 @@ class Game(models.Model):
         for rating in ratings:
             total_rating += rating.rating
         
-        return total_rating / len(ratings)
+        if len(ratings):
+            return total_rating / len(ratings)
+
+        
 
         # Calculate the averge and return it.
         # If you don't know how to calculate averge, Google it.

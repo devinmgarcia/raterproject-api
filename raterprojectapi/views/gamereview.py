@@ -67,33 +67,33 @@ class GameReviewView(ViewSet):
     #     except Exception as ex:
     #         return HttpResponseServerError(ex)
 
-    # def update(self, request, pk=None):
-    #     """Handle PUT requests for a game
+    def update(self, request, pk=None):
+        """Handle PUT requests for a game
 
-    #     Returns:
-    #         Response -- Empty body with 204 status code
-    #     """
-    #     gamer = Gamer.objects.get(user=request.auth.user)
+        Returns:
+            Response -- Empty body with 204 status code
+        """
+        gamer = Gamer.objects.get(user=request.auth.user)
 
-    #     # Do mostly the same thing as POST, but instead of
-    #     # creating a new instance of Game, get the game record
-    #     # from the database whose primary key is `pk`
-    #     game = Game.objects.get(pk=pk)
-    #     game.title = request.data["title"]
-    #     game.description = request.data["description"]
-    #     game.designer = request.data["designer"]
-    #     game.year_released = request.data["year_released"]
-    #     game.num_of_players = request.data["num_of_players"]
-    #     game.play_time = request.data["play_time"]
-    #     game.recommended_age = request.data["recommended_age"]
+        # Do mostly the same thing as POST, but instead of
+        # creating a new instance of Game, get the game record
+        # from the database whose primary key is `pk`
+        game = Game.objects.get(pk=pk)
+        game.title = request.data["title"]
+        game.description = request.data["description"]
+        game.designer = request.data["designer"]
+        game.year_released = request.data["year_released"]
+        game.num_of_players = request.data["num_of_players"]
+        game.play_time = request.data["play_time"]
+        game.recommended_age = request.data["recommended_age"]
 
-    #     game_type = GameType.objects.get(pk=request.data["gameTypeId"])
-    #     game.game_type = game_type
-    #     game.save()
+        # game_type = GameType.objects.get(pk=request.data["gameTypeId"])
+        # game.game_type = game_type
+        game.save()
 
-    #     # 204 status code means everything worked but the
-    #     # server is not sending back any data in the response
-    #     return Response({}, status=status.HTTP_204_NO_CONTENT)
+        # 204 status code means everything worked but the
+        # server is not sending back any data in the response
+        return Response({}, status=status.HTTP_204_NO_CONTENT)
 
     # def destroy(self, request, pk=None):
     #     """Handle DELETE requests for a single game
@@ -121,14 +121,6 @@ class GameReviewView(ViewSet):
         """
         # Get all game records from the database
         reviews = Review.objects.all()
-
-        # Support filtering games by type
-        #    http://localhost:8000/games?type=1
-        #
-        # That URL will retrieve all tabletop games
-        # game_type = self.request.query_params.get('type', None)
-        # if game_type is not None:
-        #     games = games.filter(game_type__id=game_type)
 
         serializer = ReviewSerializer(
             reviews, many=True, context={'request': request})
